@@ -1,11 +1,7 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
 const fetch = require('node-fetch')
 const querystring = require('querystring')
-cloud.init()
 
-// 云函数入口函数
-exports.main = async (event, context) => {
+module.exports = (event) => {
   return new Promise((resolve, reject) => {
     try {
       let userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36'

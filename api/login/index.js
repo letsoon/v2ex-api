@@ -1,9 +1,6 @@
-// 云函数入口文件
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-
-// 云函数入口函数
 module.exports = () => {
   return new Promise((resolve, reject) => {
     try{

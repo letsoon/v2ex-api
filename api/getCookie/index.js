@@ -1,13 +1,8 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk');
 const fetch = require('node-fetch');
 const axios = require('axios');
 const querystring = require('querystring');
 
-cloud.init()
-
-// 云函数入口函数
-exports.main = async (event, context) => {
+module.exports = (event) => {
   return new Promise((resolve, reject) => {
 
     console.log(event);

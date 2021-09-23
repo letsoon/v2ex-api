@@ -1,26 +1,25 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
 const fetch = require('node-fetch')
-cloud.init()
 
-// 云函数入口函数
-exports.main = async (event, context) => {
+module.exports = (event) =>  {
   return new Promise((resolve, reject) => {
+    const { id, once, tid, cookie} = event;
+    if(!id || !once || !tid || !cookie) {
+      resolve({code: 0, msg: '缺少参数'});
+    }
   try{
   // https://www.v2ex.com/thank/reply/9248428?once=54867
-  fetch(`https://www.v2ex.com/thank/reply/${event.id}?once=${event.once}`, {
+  fetch(`https://www.v2ex.com/thank/reply/${id}?once=${once}`, {
         method: "POST",
         credentials: 'include',
         timeout: 10000,
         redirect: 'manual',
         headers: {
           'origin': 'https://www.v2ex.com',
-          'referer': `https://v2ex.com/t/${event.tid}`,
+          'referer': `https://v2ex.com/t/${tid}`,
           'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36',
-          'cookie': event.cookie
+          'cookie': unescape(cookie)
         }
       }).then(res => {
-        console.log(res)
         if (res.status === 200) {
           let result = {
             code: 200,

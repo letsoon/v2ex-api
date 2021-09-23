@@ -1,12 +1,9 @@
 // 云函数入口文件
-const cloud = require('wx-server-sdk')
 const axios = require('axios')
 const cheerio = require('cheerio')
 
-cloud.init()
-
 // 云函数入口函数
-exports.main = async (event, context) => {
+module.exports = (event) => {
   return new Promise((resolve, reject) => {
     
     try{
@@ -20,7 +17,6 @@ exports.main = async (event, context) => {
           "cookie": event.cookie
         }
       }).then(res=>{
-        console.log(res)
         if(res.status === 200){
           let html = cheerio.load(res.data, {
             decodeEntities: false

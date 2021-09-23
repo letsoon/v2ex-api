@@ -1,26 +1,28 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
 const cheerio = require('cheerio');
 const axios = require('axios');
 
-cloud.init()
-
-// 云函数入口函数
-exports.main = async (event, context) => {
+module.exports = (event) => {
 
   return new Promise((resolve, reject) => {
+    const { tid, page=1, cookie } = event;
+    if(!tid){
+      let result = {
+        code: 0,
+        msg: `tid不能为空`
+      }
+      resolve(result);
+    }
     try {
       axios({
         method: "get",
-        url: `https://www.v2ex.com/t/${event.tid}?p=${event.page}`,
+        url: `https://www.v2ex.com/t/${tid}?p=${page}`,
         headers: {
           "Host": "v2ex.com",
           "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
           "Referer": "https://v2ex.com",
-          "Cookie": event.cookie
+          "Cookie": unescape(cookie)
         }
       }).then(function (res) {
-        console.log(res)
         if (res.status == 200) {
           let html = cheerio.load(res.data, {
             decodeEntities: false
@@ -46,7 +48,6 @@ exports.main = async (event, context) => {
           //节点name
           let go = html('.header h1').prev().prev().attr('href').split('/')
           go = go[go.length - 1]
-          // console.log(title,pic,user,node)
 
           // 发帖时间
           let time = html('.header small.gray').text();
