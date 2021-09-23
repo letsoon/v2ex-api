@@ -13,7 +13,7 @@ app.all('/*', function (req, res) {
   if(req.path === '/'){
     res.send('v2ex-api server is runing')
   }else{
-    const url = path.resolve(__dirname, `api${req.path}/index.js`)
+    const url = path.join(__dirname, `api${req.path}/index.js`)
     if(fs.existsSync(url)){
       res.set({
         'Content-Type': 'application/json;charset=utf-8',
@@ -22,7 +22,7 @@ app.all('/*', function (req, res) {
         'Access-Control-Allow-Origin-Headers': 'x-requested-with',
         'Access-Control-Max-Age': '1800',
       });
-      const api = require(`./api${req.path}`);
+      const api = require(url);
       api(req.body).then(resp=>{
           res.json(resp)
         })
