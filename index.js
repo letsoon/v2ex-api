@@ -13,8 +13,8 @@ app.all('/*', function (req, res) {
   if(req.path === '/'){
     res.send('v2ex-api server is runing')
   }else{
-    const url = `api${req.path}/index.js`;
-    if(fs.existsSync(path.resolve(__dirname, url))){
+    const url = path.resolve(__dirname, `api${req.path}/index.js`)
+    if(fs.existsSync(url)){
       res.set({
         'Content-Type': 'application/json;charset=utf-8',
         'Access-Control-Allow-Origin': '*',
@@ -27,7 +27,7 @@ app.all('/*', function (req, res) {
           res.json(resp)
         })
     }else{
-      res.status(404).send(`404 not found`);
+      res.status(404).send(`${url} not found`);
     }
   }
 })
