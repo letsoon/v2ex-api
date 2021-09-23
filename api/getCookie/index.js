@@ -35,8 +35,7 @@ exports.main = async (event, context) => {
           'cookie': event.cookie
         }
       }).then(res => {
-        // console.log(res.status, res.headers.raw()['location'])
-        // console.log(res)
+        
         if (res.status === 302) {
           if (res.headers.raw()['location'] && res.headers.raw()['location'].join() === 'https://v2ex.com/') {
             let setCookie = res.headers.raw()['set-cookie']
