@@ -11,10 +11,6 @@ module.exports = () => {
       "url": "https://v2ex.com/signin",
       "method": "Get",
       "timeout": 5000,
-        proxy: {
-          host: '127.0.0.1',
-          port: 7890
-        },
       "headers": {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
         "Referer": "https://v2ex.com/signin",

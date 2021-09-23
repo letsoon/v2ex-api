@@ -20,10 +20,6 @@ module.exports = (params) => {
         url: `https://www.v2ex.com/?tab=${node}`,
         method: 'get',
         timeout: 5000,
-        proxy: {
-          host: '127.0.0.1',
-          port: 7890
-        },
         headers: {
           "Host": "v2ex.com",
           "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
