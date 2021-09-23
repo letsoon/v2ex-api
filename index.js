@@ -13,6 +13,8 @@ app.all('/*', function (req, res) {
   if(req.path === '/'){
     res.send('v2ex-api server is runing')
   }else{
+    const files = fs.readdirSync(path.join(__dirname, 'api'));
+    console.log(files.join(','));
     const url = path.join(__dirname, `api${req.path}/index.js`)
     if(fs.existsSync(url)){
       res.set({
