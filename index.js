@@ -13,7 +13,8 @@ app.all('/*', function (req, res) {
   if(req.path === '/'){
     res.send('v2ex-api server is runing')
   }else{
-    if(fs.existsSync(path.resolve(__dirname, `./api${req.path}`))){
+    const url = `api${req.path}`;
+    if(fs.existsSync(path.resolve(__dirname, url))){
       res.set({
         'Content-Type': 'application/json;charset=utf-8',
         'Access-Control-Allow-Origin': '*',
@@ -26,7 +27,7 @@ app.all('/*', function (req, res) {
           res.json(resp)
         })
     }else{
-      res.status(404).send('404 not found');
+      res.status(404).send(`${path.resolve(__dirname, url)} not found`);
     }
   }
 })
