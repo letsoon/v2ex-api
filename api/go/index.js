@@ -3,10 +3,17 @@ const cheerio = require('cheerio')
 
 module.exports = (event) => {
   return new Promise((resolve, reject) => {
-    
+    const { node, page=1, cookie="" } = event;
+    if(!node){
+      let result = {
+        code: 0,
+        msg: `node不能为空`
+      }
+      resolve(result);
+    }
     try{
       axios({
-        url: `https://www.v2ex.com/go/${event.go}?p=${event.page}`,
+        url: `https://www.v2ex.com/go/${node}?p=${page}`,
         headers:{
           "Host": "v2ex.com",
           "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
@@ -14,7 +21,6 @@ module.exports = (event) => {
           "Cookie": event.cookie
         }
       }).then(res=>{
-        console.log(res)
         if(res.status === 200){
           let html = cheerio.load(res.data, {
             decodeEntities: false
@@ -26,11 +32,11 @@ module.exports = (event) => {
           }
          
           let data = []
-          let count = html('.node_header .node_info').children().first().find('strong').text()
+          let count = html('.node-header .topic-count strong').text()
           let nodeAvatar = html('.node_avatar img').attr('src')
-          let nodeInfo = html('.node_info span.f12').text()
+          let nodeInfo = html('.node-header .intro').text()
           nodeInfo = nodeInfo.trim() ? nodeInfo.trim() : '暂无介绍'
-          let pageCount = html('.node_header').next().find('a.page_normal').last().text()
+          let pageCount = html('table').find('a.page_normal').last().text()
 
           html('#TopicsNode .cell').each(function(i){
             let pic = html(this).find('.avatar').attr('src')

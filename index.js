@@ -13,8 +13,7 @@ app.all('/*', function (req, res) {
   if(req.path === '/'){
     res.send('v2ex-api server is runing')
   }else{
-    const files = fs.readdirSync(path.join(__dirname, 'api'));
-    console.log(files.join(','));
+    fs.readdirSync(path.join(__dirname, 'api'));
     const url = path.join(__dirname, `api${req.path}/index.js`)
     if(fs.existsSync(url)){
       res.set({
@@ -25,11 +24,12 @@ app.all('/*', function (req, res) {
         'Access-Control-Max-Age': '1800',
       });
       const api = require(url);
-      api(req.body).then(resp=>{
+      let params = {...req.query, ...req.body};
+      api(params).then(resp=>{
           res.json(resp)
         })
     }else{
-      res.status(404).end();
+      res.status(404).send(`${req.path} not found`);
     }
   }
 })

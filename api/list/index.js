@@ -3,18 +3,18 @@ const cheerio = require('cheerio')
 
 module.exports = (params) => {
   return new Promise((resolve, reject) => {
-  const {node="all",cookie=""} = params;
-    const nodeList = ['all','hot','qna','city','deals','jobs','apple','play','creative','tech','r2','nodes','members']
-    if(!nodeList.includes(node)){
+  const {tab="all",cookie=""} = params;
+    const tabList = ['all','hot','qna','city','deals','jobs','apple','play','creative','tech','r2','tabs','members']
+    if(!tabList.includes(tab)){
       let result = {
         code: 0,
-        msg: `${node}-节点不存在`
+        msg: `${tab}-分类不存在`
       }
       resolve(result)
     }
     try {
       axios({
-        url: `https://www.v2ex.com/?tab=${node}`,
+        url: `https://www.v2ex.com/?tab=${tab}`,
         method: 'get',
         timeout: 5000,
         headers: {
